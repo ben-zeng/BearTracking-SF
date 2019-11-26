@@ -1,3 +1,5 @@
+import { NavigationMixin } from 'lightning/navigation';
+
 import { LightningElement, track, wire } from 'lwc';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import ursusResources from '@salesforce/resourceUrl/ursus_park';
@@ -25,5 +27,21 @@ export default class BearList extends LightningElement {
 	}
 	get hasResults() {
 		return (this.bears.data.length > 0);
-	}
+    }
+    
+    handleBearView(event) {
+		// Get bear record id from bearview event
+		const bearId = event.detail;
+		// Navigate to bear record page
+		this[NavigationMixin.Navigate]({
+			type: 'standard__recordPage',
+			attributes: {
+				recordId: bearId,
+				objectApiName: 'Bear__c',
+				actionName: 'view',
+			},
+		});
+    }
+    
+    
 }
